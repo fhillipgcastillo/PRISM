@@ -6,6 +6,8 @@ runningPrism = False
 PMonitorThread = None
 
 def printOptions():
+    global runningPrism, PMonitorThread
+
     string = "System\nSelect Option:\n"
     string +=  ") PRIMS running\n" if PMonitorThread else "1) Start PRIMS in background\n"
     string += """2) Start XKeyScore\n"""
@@ -13,7 +15,8 @@ def printOptions():
     print string
 
 def runOption(option):
-    global PMonitorThread
+    global runningPrism, PMonitorThread
+
     if option == str(1):
         runningPrism =True
         PMonitorThread= Thread(target=PRISM.monitorNetwork, args=(False, 50, False, True))

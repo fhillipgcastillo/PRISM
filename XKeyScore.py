@@ -1,7 +1,11 @@
 # XKeyScore
-from scapy.all import sniff, Raw, IP, UDP
+from scapy.all import sniff, Raw, IP, UDP, hexdump
 from shared import descriptBase64Content
 import os
+
+
+def empty():
+    pass
 
 def filter_packat_by_string(pkt, string):
     if pkt.haslayer(Raw):
@@ -29,6 +33,7 @@ def updateFilesToAnalize():
             if file not in filesReaded or filesToRead:
                 if ".cap" in file or ".pcap" in file:
                     filesToRead.append(file)
+
 def readPackages():
     global packagesData, filesToRead, filesReaded, dataset
 
@@ -47,11 +52,13 @@ def analise():
     print "reading packages..."
     readPackages()
 
-
 def showSumaries():
     global packagesData
     print len(packagesData)
     packagesData.nsummary()
+
+def showHexDumpData(packages):
+    map(hexdump, packages)
 
 def showRawData(begin=-1, ends=-1):
     global packagesData
@@ -79,10 +86,8 @@ def packet_callback(packet):
             print '[*] Server: %s' % packet[IP].dst
             print '[*] %s' %packet[TCP].payload
 
-sniff(filter="tcp port 110 or tcp port 25 or tcp port 143", prn=packet_callback, store=0)
-
-def empty():
-    pass
+# example for using the sniffer, this is a network scan
+# sniff(filter="tcp port 110 or tcp port 25 or tcp port 143", prn=packet_callback, store=0)
 
 OPTIONS = [
     {
@@ -119,6 +124,7 @@ OPTIONS = [
     },
 ]
 
+
 def startOption(option):
     if int(option) >= len(OPTIONS ): return
     callback = OPTIONS[int(option)-1].get('callback')
@@ -140,6 +146,4 @@ def bootstrap():
     analise()
     manageOptions()
 
-
-
-    
+  
