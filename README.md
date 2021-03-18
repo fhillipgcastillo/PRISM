@@ -7,4 +7,4 @@ the main code for this was for a video training I found and I change on what I w
 ````python main.py
 
 
-Developed by [Fhillip Castillo](https://github.com/gers0n)
+Developed by [Fhillip Castillo](https://github.com/fhillipgcastillo)
